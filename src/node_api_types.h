@@ -49,4 +49,6 @@ typedef void(NAPI_CDECL* napi_async_cleanup_hook)(
     napi_async_cleanup_hook_handle handle, void* data);
 #endif  // NAPI_VERSION >= 8
 
+typedef void(NAPI_CDECL* napi_interrupt_callback)(napi_env env, void* arg);
+
 #endif  // SRC_NODE_API_TYPES_H_

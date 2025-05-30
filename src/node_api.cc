@@ -1433,6 +1433,30 @@ napi_status NAPI_CDECL node_api_get_module_file_name(
   return napi_clear_last_error(env);
 }
 
+struct IrqData final {
+  IrqData(napi_env env, napi_interrupt_callback cb, void* data)
+      : env(env), cb(cb), data(data) {}
+
+  napi_env env;
+  napi_interrupt_callback cb;
+  void* data;
+};
+
+static void v8_irq_callback(v8::Isolate* isolate, void* data) {
+  IrqData* irq_data = static_cast<IrqData*>(data);
+  irq_data->cb(irq_data->env, irq_data->data);
+  delete irq_data;
+}
+
+napi_status NAPI_CDECL node_api_request_interrupt(
+    napi_env env, napi_interrupt_callback callback, void* data) {
+  CHECK_ENV(env);
+
+  IrqData *irqData = new IrqData(env, callback, data);
+  env->isolate->RequestInterrupt(v8_irq_callback, irqData);
+  return napi_clear_last_error(env);
+}
+
 #ifdef NAPI_EXPERIMENTAL
 
 napi_status NAPI_CDECL
