@@ -264,6 +264,9 @@ node_api_get_module_file_name(node_api_basic_env env, const char** result);
 
 #endif  // NAPI_VERSION >= 9
 
+NAPI_EXTERN napi_status NAPI_CDECL node_api_request_interrupt(
+    napi_env env, napi_interrupt_callback callback, void* data);
+
 EXTERN_C_END
 
 #endif  // SRC_NODE_API_H_
