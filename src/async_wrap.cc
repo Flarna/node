@@ -662,6 +662,7 @@ MaybeLocal<Value> AsyncWrap::MakeCallback(const Local<Function> cb,
                                           Local<Value>* argv) {
   EmitTraceEventBefore();
 
+  DCHECK(!context_frame_.IsEmpty());
   ProviderType provider = provider_type();
   async_context context { get_async_id(), get_trigger_async_id() };
   MaybeLocal<Value> ret =
