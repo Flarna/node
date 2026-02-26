@@ -338,7 +338,8 @@ void AsyncWrap::EmitDestroy(bool from_gc) {
       HandleScope handle_scope(env()->isolate());
       USE(object()->Set(env()->context(), env()->resource_symbol(), object()));
     }
-    context_frame_.Reset();
+    Isolate* isolate = env()->isolate();
+    context_frame_.Reset(isolate, Undefined(isolate));
   }
 }
 
